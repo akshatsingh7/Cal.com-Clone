@@ -115,9 +115,22 @@ const BookingPage = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F3F4F6'
+        backgroundColor: 'var(--color-gray-50)'
       }}>
-        <div style={{ textAlign: 'center' }}>Loading...</div>
+        <div style={{
+          display: 'inline-block',
+          width: '40px',
+          height: '40px',
+          border: '3px solid var(--color-gray-200)',
+          borderTop: '3px solid var(--color-primary)',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <style>{`
+          @keyframes spin {
+            to { transform: rotate(360deg); }
+          }
+        `}</style>
       </div>
     )
   }
@@ -129,14 +142,16 @@ const BookingPage = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#F3F4F6'
+        backgroundColor: 'var(--color-gray-50)'
       }}>
         <div style={{
-          backgroundColor: '#FEE2E2',
-          color: '#991B1B',
-          padding: '20px',
+          backgroundColor: '#fee2e2',
+          border: '1px solid #fecaca',
+          color: '#991b1b',
+          padding: '16px 20px',
           borderRadius: '8px',
-          maxWidth: '400px'
+          maxWidth: '400px',
+          fontSize: '14px'
         }}>
           {error}
         </div>
@@ -145,47 +160,76 @@ const BookingPage = () => {
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#F3F4F6', padding: '40px 20px' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--color-gray-50)', padding: '40px 20px' }}>
       <div style={{
-        maxWidth: '900px',
+        maxWidth: '1000px',
         margin: '0 auto',
         display: 'grid',
         gridTemplateColumns: '1fr 1fr',
-        gap: '40px',
+        gap: '48px',
         alignItems: 'start'
       }}>
         {/* Left side: Event info */}
         <div style={{
           backgroundColor: 'white',
-          borderRadius: '8px',
-          padding: '30px',
-          border: '1px solid #E5E7EB',
-          height: 'fit-content'
+          borderRadius: '12px',
+          padding: '32px',
+          border: '1px solid var(--color-gray-200)',
+          height: 'fit-content',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.08)'
         }}>
-          <h1 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '10px' }}>
+          <h1 style={{
+            fontSize: '28px',
+            fontWeight: '700',
+            marginBottom: '12px',
+            color: 'var(--color-gray-900)',
+            letterSpacing: '-0.5px'
+          }}>
             {eventType?.title}
           </h1>
-          <p style={{ color: '#6B7280', marginBottom: '20px', fontSize: '16px' }}>
+          <p style={{
+            color: 'var(--color-gray-500)',
+            marginBottom: '24px',
+            fontSize: '15px',
+            fontWeight: '500'
+          }}>
             {eventType?.duration_minutes} minute meeting
           </p>
 
           {eventType?.description && (
             <div style={{
-              padding: '15px',
-              backgroundColor: '#F9FAFB',
-              borderLeft: '4px solid #2563EB',
-              borderRadius: '4px',
-              marginBottom: '20px'
+              padding: '16px',
+              backgroundColor: 'var(--color-primary-light)',
+              border: '1px solid #bfdbfe',
+              borderRadius: '8px',
+              marginBottom: '24px'
             }}>
-              <p style={{ fontSize: '14px', lineHeight: '1.5', color: '#1F2937' }}>
+              <p style={{
+                fontSize: '13px',
+                lineHeight: '1.6',
+                color: '#1e40af',
+                margin: 0
+              }}>
                 {eventType.description}
               </p>
             </div>
           )}
 
-          <div style={{ color: '#6B7280', fontSize: '14px', lineHeight: '1.8' }}>
-            <p>🕐 Time zone: Your local time</p>
-            <p>📅 Duration: {eventType?.duration_minutes} minutes</p>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            color: 'var(--color-gray-600)',
+            fontSize: '13px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '16px' }}>🕐</span>
+              <p style={{ margin: 0 }}>Time zone: Your local time</p>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ fontSize: '16px' }}>📅</span>
+              <p style={{ margin: 0 }}>Duration: {eventType?.duration_minutes} minutes</p>
+            </div>
           </div>
         </div>
 
@@ -193,11 +237,13 @@ const BookingPage = () => {
         <div>
           {error && (
             <div style={{
-              backgroundColor: '#FEE2E2',
-              color: '#991B1B',
-              padding: '15px',
-              borderRadius: '6px',
-              marginBottom: '20px'
+              backgroundColor: '#fee2e2',
+              border: '1px solid #fecaca',
+              color: '#991b1b',
+              padding: '14px 16px',
+              borderRadius: '8px',
+              marginBottom: '24px',
+              fontSize: '13px'
             }}>
               {error}
             </div>
@@ -206,7 +252,12 @@ const BookingPage = () => {
           {/* Calendar */}
           {!selectedDate ? (
             <div>
-              <h2 style={{ marginBottom: '15px', fontWeight: '600' }}>Select a date</h2>
+              <h2 style={{
+                marginBottom: '20px',
+                fontWeight: '600',
+                fontSize: '16px',
+                color: 'var(--color-gray-900)'
+              }}>Select a date</h2>
               <CalendarPicker
                 onDateSelect={setSelectedDate}
                 disabledDays={[0, 6]} // Disable Sunday and Saturday for demo
@@ -217,35 +268,88 @@ const BookingPage = () => {
               <button
                 onClick={() => setSelectedDate(null)}
                 style={{
-                  marginBottom: '15px',
+                  marginBottom: '20px',
                   backgroundColor: 'transparent',
-                  color: '#2563EB',
+                  color: 'var(--color-primary)',
                   fontWeight: '500',
                   cursor: 'pointer',
-                  fontSize: '14px'
+                  fontSize: '13px',
+                  padding: '0',
+                  transition: 'color 0.2s ease'
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-primary-dark)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--color-primary)'}
               >
                 ← Back to calendar
               </button>
 
-              <div style={{ backgroundColor: 'white', padding: '15px', borderRadius: '8px', marginBottom: '20px', border: '1px solid #E5E7EB' }}>
-                <p style={{ fontSize: '14px', color: '#6B7280' }}>
+              <div style={{
+                backgroundColor: 'white',
+                padding: '16px',
+                borderRadius: '10px',
+                marginBottom: '24px',
+                border: '1px solid var(--color-gray-200)'
+              }}>
+                <p style={{
+                  fontSize: '14px',
+                  color: 'var(--color-gray-900)',
+                  fontWeight: '500',
+                  margin: 0
+                }}>
                   {format(new Date(selectedDate), 'EEEE, MMMM d')}
                 </p>
               </div>
 
               {/* Time slots */}
               {slotsLoading ? (
-                <div style={{ padding: '20px', textAlign: 'center', color: '#6B7280' }}>Loading times...</div>
+                <div style={{
+                  padding: '32px',
+                  textAlign: 'center',
+                  color: 'var(--color-gray-500)',
+                  fontSize: '14px'
+                }}>
+                  <div style={{
+                    display: 'inline-block',
+                    width: '32px',
+                    height: '32px',
+                    border: '2px solid var(--color-gray-200)',
+                    borderTop: '2px solid var(--color-primary)',
+                    borderRadius: '50%',
+                    animation: 'spin 1s linear infinite'
+                  }} />
+                  <p style={{ marginTop: '12px' }}>Loading times...</p>
+                </div>
+              ) : slots.length === 0 ? (
+                <div style={{
+                  padding: '32px',
+                  textAlign: 'center',
+                  backgroundColor: 'var(--color-gray-50)',
+                  borderRadius: '10px',
+                  fontSize: '14px',
+                  color: 'var(--color-gray-500)'
+                }}>
+                  No available slots
+                </div>
               ) : (
                 <>
                   <TimeSlotPicker slots={slots} onSlotSelect={setSelectedSlot} />
 
                   {selectedSlot && !submitting && (
-                    <form onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
-                      <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', border: '1px solid #E5E7EB' }}>
-                        <div style={{ marginBottom: '15px' }}>
-                          <label style={{ display: 'block', marginBottom: '5px', fontWeight: '500' }}>
+                    <form onSubmit={handleSubmit} style={{ marginTop: '24px' }}>
+                      <div style={{
+                        backgroundColor: 'white',
+                        padding: '24px',
+                        borderRadius: '10px',
+                        border: '1px solid var(--color-gray-200)'
+                      }}>
+                        <div style={{ marginBottom: '18px' }}>
+                          <label style={{
+                            display: 'block',
+                            marginBottom: '8px',
+                            fontWeight: '600',
+                            fontSize: '13px',
+                            color: 'var(--color-gray-900)'
+                          }}>
                             Your Name *
                           </label>
                           <input
@@ -256,17 +360,33 @@ const BookingPage = () => {
                             placeholder="John Doe"
                             style={{
                               width: '100%',
-                              padding: '10px',
-                              border: '1px solid #D1D5DB',
+                              padding: '10px 12px',
+                              border: '1px solid var(--color-gray-300)',
                               borderRadius: '6px',
-                              fontSize: '14px'
+                              fontSize: '14px',
+                              transition: 'all 0.2s ease',
+                              fontFamily: 'inherit'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = 'var(--color-primary)'
+                              e.target.style.boxShadow = '0 0 0 3px var(--color-primary-light)'
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = 'var(--color-gray-300)'
+                              e.target.style.boxShadow = 'none'
                             }}
                             required
                           />
                         </div>
 
-                        <div style={{ marginBottom: '15px' }}>
-                          <label style={{ display: 'block', marginBottom: '5px', fontWeight: '500' }}>
+                        <div style={{ marginBottom: '18px' }}>
+                          <label style={{
+                            display: 'block',
+                            marginBottom: '8px',
+                            fontWeight: '600',
+                            fontSize: '13px',
+                            color: 'var(--color-gray-900)'
+                          }}>
                             Email *
                           </label>
                           <input
@@ -277,40 +397,67 @@ const BookingPage = () => {
                             placeholder="john@example.com"
                             style={{
                               width: '100%',
-                              padding: '10px',
-                              border: '1px solid #D1D5DB',
+                              padding: '10px 12px',
+                              border: '1px solid var(--color-gray-300)',
                               borderRadius: '6px',
-                              fontSize: '14px'
+                              fontSize: '14px',
+                              transition: 'all 0.2s ease',
+                              fontFamily: 'inherit'
+                            }}
+                            onFocus={(e) => {
+                              e.target.style.borderColor = 'var(--color-primary)'
+                              e.target.style.boxShadow = '0 0 0 3px var(--color-primary-light)'
+                            }}
+                            onBlur={(e) => {
+                              e.target.style.borderColor = 'var(--color-gray-300)'
+                              e.target.style.boxShadow = 'none'
                             }}
                             required
                           />
                         </div>
 
                         <div style={{
-                          padding: '12px',
-                          backgroundColor: '#F9FAFB',
-                          borderRadius: '6px',
-                          marginBottom: '15px',
-                          fontSize: '14px'
+                          padding: '12px 14px',
+                          backgroundColor: 'var(--color-gray-50)',
+                          borderRadius: '8px',
+                          marginBottom: '20px',
+                          fontSize: '13px',
+                          color: 'var(--color-gray-700)'
                         }}>
-                          <strong>Booking Time:</strong> {selectedSlot.start} - {selectedSlot.end}
+                          <p style={{ margin: 0, fontWeight: '600', marginBottom: '4px' }}>Booking Time:</p>
+                          <p style={{ margin: 0, fontWeight: '500' }}>{selectedSlot.start} - {selectedSlot.end}</p>
                         </div>
 
                         <button
                           type="submit"
+                          disabled={submitting}
                           style={{
                             width: '100%',
-                            padding: '12px',
-                            backgroundColor: '#10B981',
+                            padding: '12px 16px',
+                            backgroundColor: 'var(--color-success)',
                             color: 'white',
-                            borderRadius: '6px',
+                            borderRadius: '8px',
                             fontWeight: '600',
-                            fontSize: '16px'
+                            fontSize: '14px',
+                            boxShadow: '0 2px 4px rgba(16, 185, 129, 0.2)',
+                            transition: 'all 0.2s ease',
+                            opacity: submitting ? 0.7 : 1,
+                            cursor: submitting ? 'not-allowed' : 'pointer'
                           }}
-                          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#059669'}
-                          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#10B981'}
+                          onMouseEnter={(e) => {
+                            if (!submitting) {
+                              e.currentTarget.style.backgroundColor = '#059669'
+                              e.currentTarget.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.3)'
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!submitting) {
+                              e.currentTarget.style.backgroundColor = 'var(--color-success)'
+                              e.currentTarget.style.boxShadow = '0 2px 4px rgba(16, 185, 129, 0.2)'
+                            }
+                          }}
                         >
-                          Confirm Booking
+                          {submitting ? 'Confirming...' : 'Confirm Booking'}
                         </button>
                       </div>
                     </form>
